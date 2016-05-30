@@ -61,8 +61,9 @@ class VerifyGoogleBot
     {
         $status=false;
         if(empty($user_agent))
-            $user_agent=mb_strtolower($_SERVER['HTTP_USER_AGENT']);
-
+            $user_agent=$_SERVER['HTTP_USER_AGENT'];
+        $user_agent=mb_strtolower($user_agent);
+        
         /** Not so robust but works anyway! */
         if(preg_match('#googlebot#', $user_agent))
             $status=true;
