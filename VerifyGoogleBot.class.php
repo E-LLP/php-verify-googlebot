@@ -1,5 +1,4 @@
 <?php
-error_reporting('-1');
 /**
 * Verify Googlebot for Real!
 * @author Miraz Mac <mirazmac@gmail.com>
