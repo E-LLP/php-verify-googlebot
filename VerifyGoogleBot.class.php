@@ -9,38 +9,35 @@ error_reporting('-1');
 */
 class VerifyGoogleBot
 {
-    /** @var string The client IP Address */
-    private $CLIENT_IP;
 
     /**
-     * Construct the class
-     * @param string $client_ip A valid IP Address in case you wanna check an ip manually
+     * Detects if client is Google Bot( really :D )
+     * @return boolean
      */
-    function __construct($client_ip='')
+    public function isGoogleBot($ip='')
     {
-        /** Assign the user provided ip */
-        if($client_ip){
-            if(filter_var($client_ip, FILTER_VALIDATE_IP))
-                $this->CLIENT_IP=$client_ip;
-            else
-                throw new Exception("PHP Verify Googlebot requires a valid IP Address!", 1);
-        }
-    }
-
-    public function isGoogle()
-    {
-        if(isset($this->CLIENT_IP)):
-            return $this->isGoogleIP($this->CLIENT_IP);
+        /** If IP is assigned manually we will skip user-agent verification */
+        if($ip):
+            return $this->isGoogleIP($ip);
         endif;
         /** No IP assigned manually! */
-        
+        if($this->isGoogleUa() && $this->isGoogleIP($this->getClientIP()))
+            return true;
+        else
+            return false;
+
     }
 
+    /**
+     * Function to check if IP is a valid Google Bot IP
+     * @param  string  $ip A valid IP address
+     * @return boolean
+     */
     public function isGoogleIP($ip)
     {
-        if(!filter_var($ip, FILTER_VALIDATE_IP))
-            throw new Exception("Please provide a valid IP Address!", 1);
         $status=false;
+        if(!filter_var($ip, FILTER_VALIDATE_IP))
+            return $status;
         $hostname = gethostbyaddr($ip);
 
         /** Checking if the host matches with Google */
@@ -79,7 +76,7 @@ class VerifyGoogleBot
      */
     public function getClientIP()
     {
-        $ip='';
+        $ip='127.0.0.1';
         if(!empty($_SERVER['HTTP_CLIENT_IP'])):
             $ip=$_SERVER['HTTP_CLIENT_IP'];
         elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])):
