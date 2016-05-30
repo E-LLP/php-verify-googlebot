@@ -26,10 +26,9 @@ if($verify->isGoogleBot()){
 else{
     echo 'Nope! This client is just a simple user :/';
 }
-
 ```
 
-#### Available Pubic Methods
+#### Available Public Methods
 
 ```php
 // Detects if an IP is Google Bot's Ip
@@ -44,4 +43,3 @@ $verify->isGoogleIP($useragent);
 echo $verify->getClientIP();
 
 ```
-
